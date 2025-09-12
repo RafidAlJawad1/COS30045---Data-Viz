@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     initializeUserName();
     addNavigationEffects();
+    enhanceNavInteractions(); // Add the enhanced navigation interactions
 });
 
 /**
@@ -146,6 +147,7 @@ function addNavigationEffects() {
     const logo = document.querySelector('.logo');
     if (logo) {
         logo.addEventListener('mouseenter', function() {
+            this.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             this.style.transform = 'scale(1.05) rotate(2deg)';
         });
         
@@ -154,24 +156,38 @@ function addNavigationEffects() {
         });
     }
     
-    // Navigation link enhanced hover effects
+    // Navigation link enhanced interactions - removed problematic ripple effect
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
+        // Ensure proper click handling
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const page = this.getAttribute('data-page');
+            if (page) {
+                showPage(page);
+            }
+        });
+        
+        // Improve hover feedback
         link.addEventListener('mouseenter', function() {
-            // Add ripple effect
-            createRippleEffect(this);
-            
-            // Add subtle glow
-            this.style.boxShadow = '0 0 20px rgba(0, 170, 255, 0.3)';
+            this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         });
         
         link.addEventListener('mouseleave', function() {
-            // Remove glow effect after delay
+            // Smooth transition back
+            this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+        
+        // Add touch support for mobile
+        link.addEventListener('touchstart', function(e) {
+            this.style.transform = 'translateY(-2px) scale(1.02)';
+        });
+        
+        link.addEventListener('touchend', function(e) {
             setTimeout(() => {
-                if (!this.classList.contains('active')) {
-                    this.style.boxShadow = '';
-                }
-            }, 300);
+                this.style.transform = '';
+            }, 150);
         });
     });
     
@@ -183,38 +199,46 @@ function addNavigationEffects() {
 }
 
 /**
- * Create ripple effect on navigation links
- * @param {Element} element - The element to add ripple effect to
+ * Improved navigation interaction handling
  */
-function createRippleEffect(element) {
-    const ripple = document.createElement('span');
-    ripple.classList.add('ripple');
+function enhanceNavInteractions() {
+    const navLinks = document.querySelectorAll('.nav-link');
     
-    const rect = element.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    
-    ripple.style.cssText = `
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        transform: scale(0);
-        animation: rippleAnimation 0.6s linear;
-        width: ${size}px;
-        height: ${size}px;
-        left: 50%;
-        top: 50%;
-        margin-left: ${-size/2}px;
-        margin-top: ${-size/2}px;
-        pointer-events: none;
-    `;
-    
-    element.style.position = 'relative';
-    element.style.overflow = 'hidden';
-    element.appendChild(ripple);
-    
-    setTimeout(() => {
-        ripple.remove();
-    }, 600);
+    navLinks.forEach(link => {
+        // Remove any existing event listeners to prevent conflicts
+        const newLink = link.cloneNode(true);
+        link.parentNode.replaceChild(newLink, link);
+        
+        // Add clean click handler
+        newLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const page = this.getAttribute('data-page');
+            if (page) {
+                // Add visual feedback
+                this.style.transform = 'translateY(-1px) scale(0.98)';
+                
+                setTimeout(() => {
+                    showPage(page);
+                    this.style.transform = '';
+                }, 100);
+            }
+        });
+        
+        // Enhanced hover effects
+        newLink.addEventListener('mouseenter', function() {
+            if (!this.classList.contains('active')) {
+                this.style.transform = 'translateY(-3px) scale(1.05)';
+            }
+        });
+        
+        newLink.addEventListener('mouseleave', function() {
+            if (!this.classList.contains('active')) {
+                this.style.transform = '';
+            }
+        });
+    });
 }
 
 /**
@@ -264,28 +288,31 @@ function handleKeyboardNavigation(e) {
 }
 
 /**
- * Add CSS animation for ripple effect
+ * Add enhanced CSS animations
  */
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes rippleAnimation {
-        to {
-            transform: scale(2);
-            opacity: 0;
-        }
-    }
-    
     .page {
-        transition: opacity 0.5s ease, transform 0.5s ease;
+        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .navbar {
-        transition: background 0.3s ease, backdrop-filter 0.3s ease;
+        transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .nav-link {
         position: relative;
         overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    /* Ensure smooth transitions */
+    .nav-link:hover {
+        transition-delay: 0ms !important;
+    }
+    
+    .nav-link.active {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 `;
 document.head.appendChild(style);
