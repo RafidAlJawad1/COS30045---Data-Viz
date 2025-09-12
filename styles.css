@@ -1,0 +1,451 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+/* Color Variables - Energy/Power Theme */
+:root {
+    --primary-blue: #0066cc;
+    --electric-blue: #00aaff;
+    --dark-blue: #003d7a;
+    --light-blue: #e6f3ff;
+    --accent-orange: #ff6b35;
+    --dark-gray: #2c3e50;
+    --light-gray: #ecf0f1;
+    --white: #ffffff;
+    --text-dark: #2c3e50;
+    --text-light: #7f8c8d;
+    --success-green: #27ae60;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation Styles */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+    box-shadow: 0 2px 10px var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 0.5rem 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+/* Logo Styles */
+.logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.logo-img {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+    filter: brightness(1.1);
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--white);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation Menu */
+.nav-menu {
+    display: flex;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.nav-link:hover::before {
+    left: 100%;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-link.active {
+    background-color: var(--electric-blue);
+    color: var(--white);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.nav-link.active:hover {
+    background-color: var(--accent-orange);
+}
+
+/* Main Content */
+.main-content {
+    min-height: calc(100vh - 120px);
+    padding: 2rem 0;
+}
+
+/* Page Styles */
+.page {
+    display: none;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 4rem 0;
+    background: linear-gradient(135deg, var(--light-blue), var(--white));
+    border-radius: 15px;
+    margin-bottom: 3rem;
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Page Headers */
+.page-header {
+    text-align: center;
+    padding: 2rem 0 3rem 0;
+}
+
+.page-header h1 {
+    font-size: 2.2rem;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+}
+
+.page-header p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Content Sections */
+.content-section {
+    margin-bottom: 3rem;
+}
+
+.content-section h2 {
+    font-size: 1.8rem;
+    color: var(--dark-blue);
+    margin-bottom: 1.5rem;
+    border-bottom: 3px solid var(--electric-blue);
+    padding-bottom: 0.5rem;
+}
+
+.content-section h3 {
+    font-size: 1.4rem;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+}
+
+.content-section p {
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+    line-height: 1.7;
+}
+
+/* Grid Layouts */
+.info-grid, .comparison-grid, .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+/* Cards */
+.info-card, .tv-type, .benefit-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid var(--electric-blue);
+}
+
+.info-card:hover, .tv-type:hover, .benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 102, 204, 0.2);
+}
+
+.info-card h3, .tv-type h4, .benefit-card h3 {
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+/* Appliance List */
+.appliance-list {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 3px 10px var(--shadow);
+}
+
+.appliance-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--light-gray);
+    transition: background-color 0.3s ease;
+}
+
+.appliance-item:last-child {
+    border-bottom: none;
+}
+
+.appliance-item:hover {
+    background-color: var(--light-blue);
+    border-radius: 5px;
+    margin: 0 -1rem;
+    padding: 1rem;
+}
+
+.appliance-name {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.energy-usage {
+    color: var(--electric-blue);
+    font-weight: 500;
+    background-color: var(--light-blue);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+}
+
+/* TV Comparison */
+.tv-comparison {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px var(--shadow);
+    margin: 2rem 0;
+}
+
+/* Energy Tips */
+.energy-tips {
+    background: linear-gradient(135deg, var(--success-green), #2ecc71);
+    color: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    margin: 2rem 0;
+}
+
+.energy-tips h3 {
+    color: var(--white);
+    margin-bottom: 1rem;
+}
+
+.energy-tips ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.energy-tips li {
+    padding: 0.5rem 0;
+    position: relative;
+    padding-left: 2rem;
+}
+
+.energy-tips li::before {
+    content: '⚡';
+    position: absolute;
+    left: 0;
+    color: #f1c40f;
+    font-size: 1.2rem;
+}
+
+/* Stats Section */
+.stats-section {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px var(--shadow);
+    margin: 2rem 0;
+}
+
+.stats-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.stats-section li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--light-gray);
+    position: relative;
+    padding-left: 2rem;
+}
+
+.stats-section li:last-child {
+    border-bottom: none;
+}
+
+.stats-section li::before {
+    content: '📊';
+    position: absolute;
+    left: 0;
+}
+
+/* Footer */
+.footer {
+    background: var(--dark-gray);
+    color: var(--white);
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+.footer-content p {
+    margin-bottom: 0.5rem;
+}
+
+.genai-acknowledgment {
+    font-size: 0.9rem;
+    color: var(--light-gray);
+    font-style: italic;
+}
+
+#user-name {
+    color: var(--electric-blue);
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-list {
+        gap: 1rem;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .info-grid, .comparison-grid, .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .appliance-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .main-content {
+        padding: 1rem 0;
+    }
+    
+    .page {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-list {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .hero {
+        padding: 2rem 1rem;
+    }
+    
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+}

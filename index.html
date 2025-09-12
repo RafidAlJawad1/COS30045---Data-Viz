@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Efficient Appliances Australia</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <div class="logo" onclick="showPage('home')">
+                <img src="PowerIcon.png" alt="Power Logo" class="logo-img">
+                <span class="logo-text">EnergyWise</span>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <nav class="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-page="home" onclick="showPage('home')">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="televisions" onclick="showPage('televisions')">Televisions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="about" onclick="showPage('about')">About Us</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <h1>Energy Efficient Appliances for Australian Homes</h1>
+                <p class="hero-subtitle">Discover how the right appliances can reduce your energy consumption and save money on your electricity bills.</p>
+            </section>
+            
+            <section class="content-section">
+                <h2>Understanding Energy Consumption in Australia</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Average Household Consumption</h3>
+                        <p>The average Australian household consumes approximately 6,000-7,000 kWh of electricity per year, with appliances accounting for about 33% of total energy use.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Energy Star Ratings</h3>
+                        <p>Look for appliances with high Energy Star ratings (4-6 stars) to maximize efficiency. A 6-star appliance can use up to 50% less energy than a 1-star model.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Peak Usage Times</h3>
+                        <p>In Australia, peak electricity usage typically occurs between 6-8 PM. Energy-efficient appliances help reduce strain during these costly peak periods.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Top Energy-Consuming Appliances</h2>
+                <div class="appliance-list">
+                    <div class="appliance-item">
+                        <span class="appliance-name">Air Conditioning</span>
+                        <span class="energy-usage">~40% of home energy use</span>
+                    </div>
+                    <div class="appliance-item">
+                        <span class="appliance-name">Water Heating</span>
+                        <span class="energy-usage">~25% of home energy use</span>
+                    </div>
+                    <div class="appliance-item">
+                        <span class="appliance-name">Refrigeration</span>
+                        <span class="energy-usage">~8% of home energy use</span>
+                    </div>
+                    <div class="appliance-item">
+                        <span class="appliance-name">Televisions & Electronics</span>
+                        <span class="energy-usage">~5-7% of home energy use</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Televisions Page -->
+        <div id="televisions" class="page">
+            <section class="page-header">
+                <h1>Energy Efficient Televisions</h1>
+                <p>Choose the right TV to reduce your energy consumption without compromising on entertainment quality.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>TV Energy Consumption in Australia</h2>
+                <p>The average Australian household has 2.2 televisions, consuming approximately 200-400 kWh annually per TV. With rising electricity costs, choosing an energy-efficient model can save you $50-100 per year per television.</p>
+                
+                <div class="tv-comparison">
+                    <h3>Energy Consumption by TV Type</h3>
+                    <div class="comparison-grid">
+                        <div class="tv-type">
+                            <h4>LED/LCD TVs</h4>
+                            <p><strong>Power Usage:</strong> 60-120W</p>
+                            <p><strong>Annual Cost:</strong> $40-80</p>
+                            <p>Most energy-efficient option with excellent picture quality.</p>
+                        </div>
+                        <div class="tv-type">
+                            <h4>OLED TVs</h4>
+                            <p><strong>Power Usage:</strong> 100-150W</p>
+                            <p><strong>Annual Cost:</strong> $65-100</p>
+                            <p>Superior picture quality with moderate energy consumption.</p>
+                        </div>
+                        <div class="tv-type">
+                            <h4>Plasma TVs (Legacy)</h4>
+                            <p><strong>Power Usage:</strong> 200-400W</p>
+                            <p><strong>Annual Cost:</strong> $130-260</p>
+                            <p>High energy consumption - consider upgrading to newer technology.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="energy-tips">
+                    <h3>Tips for Reducing TV Energy Consumption</h3>
+                    <ul>
+                        <li>Use automatic brightness settings to adjust to room lighting</li>
+                        <li>Enable power-saving modes when available</li>
+                        <li>Turn off TVs completely rather than leaving on standby</li>
+                        <li>Consider smaller screen sizes for secondary rooms</li>
+                        <li>Look for Energy Star certified models</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- About Us Page -->
+        <div id="about" class="page">
+            <section class="page-header">
+                <h1>About EnergyWise</h1>
+                <p>Your trusted guide to energy-efficient appliances in the Australian market.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>Our Mission</h2>
+                <p>EnergyWise is dedicated to helping Australian households make informed decisions about energy-efficient appliances. We provide comprehensive information about energy consumption, cost savings, and environmental impact to help you choose appliances that benefit both your wallet and the planet.</p>
+
+                <h2>Why Energy Efficiency Matters</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <h3>💰 Cost Savings</h3>
+                        <p>Energy-efficient appliances can reduce your electricity bills by 20-50%, saving hundreds of dollars annually.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>🌍 Environmental Impact</h3>
+                        <p>Reducing energy consumption helps decrease greenhouse gas emissions and supports Australia's renewable energy goals.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>🏠 Home Value</h3>
+                        <p>Energy-efficient appliances increase property value and appeal to environmentally conscious buyers.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3>⚡ Grid Stability</h3>
+                        <p>Lower energy demand helps stabilize the electricity grid and reduces the need for additional power infrastructure.</p>
+                    </div>
+                </div>
+
+                <h2>Australian Energy Context</h2>
+                <p>Australia has some of the highest electricity prices globally, making energy efficiency crucial for household budgets. With increasing adoption of renewable energy sources like solar and wind, efficient appliances help maximize the benefits of clean energy while reducing reliance on fossil fuels.</p>
+
+                <div class="stats-section">
+                    <h3>Key Statistics</h3>
+                    <ul>
+                        <li>Average Australian electricity price: 25-35 cents per kWh</li>
+                        <li>Household appliances account for 33% of residential energy use</li>
+                        <li>Energy-efficient appliances can reduce consumption by 20-50%</li>
+                        <li>Over 2.5 million Australian homes now have solar panels</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 EnergyWise Australia | <span id="user-name">[Your Name]</span></p>
+            <p class="genai-acknowledgment">Content and code assistance provided by generative AI technology</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
