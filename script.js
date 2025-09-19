@@ -102,7 +102,7 @@ function addPageTransition() {
         activePage.style.transform = 'translateY(200px)';
         
         setTimeout(() => {
-            activePage.style.transition = 'opacity 3.5s ease, transform 6.5s ease';
+            activePage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             activePage.style.opacity = '1';
             activePage.style.transform = 'translateY(0)';
         }, 50);
@@ -148,7 +148,7 @@ function addNavigationEffects() {
     if (logo) {
         logo.addEventListener('mouseenter', function() {
             this.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-            this.style.transform = 'scale(1.05) rotate(2deg)';
+            this.style.transform = 'scale(1.05) rotate(20deg)';
         });
         
         logo.addEventListener('mouseleave', function() {
