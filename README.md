@@ -101,7 +101,7 @@ This website provides information about energy-efficient appliances for Australi
 - User experience flow and navigation design
 - Animation timing and easing functions
 
-### Human Contributions
+### My Contributions
 
 #### Requirements & Feedback
 - Initial project specifications and requirements
@@ -142,7 +142,7 @@ This website provides information about energy-efficient appliances for Australi
 ### Ethical Considerations
 
 - **Transparency**: Full disclosure of AI assistance in project footer and documentation
-- **Academic Integrity**: Clear delineation of AI vs. human contributions
+- **Academic Integrity**: Clear delineation of AI vs. my contributions
 - **Attribution**: Proper acknowledgment of AI tool usage
 - **Learning Value**: AI used as a teaching and development aid, not replacement for learning
 
