@@ -99,7 +99,7 @@ function addPageTransition() {
     const activePage = document.querySelector('.page.active');
     if (activePage) {
         activePage.style.opacity = '0';
-        activePage.style.transform = 'translateY(200px)';
+        activePage.style.transform = 'translateY(20px)';
         
         setTimeout(() => {
             activePage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
