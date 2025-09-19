@@ -99,10 +99,10 @@ function addPageTransition() {
     const activePage = document.querySelector('.page.active');
     if (activePage) {
         activePage.style.opacity = '0';
-        activePage.style.transform = 'translateY(20px)';
+        activePage.style.transform = 'translateY(200px)';
         
         setTimeout(() => {
-            activePage.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            activePage.style.transition = 'opacity 3.5s ease, transform 6.5s ease';
             activePage.style.opacity = '1';
             activePage.style.transform = 'translateY(0)';
         }, 50);
