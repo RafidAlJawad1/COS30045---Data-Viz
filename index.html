@@ -3,189 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Energy Efficient Appliances Australia</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Speeding Enforcement Insights Dashboard | COS30045</title>
+    <link rel="stylesheet" href="css/styles-base.css">
+    <link rel="stylesheet" href="css/styles-dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation Header -->
-    <header class="navbar">
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <!-- Logo -->
-            <div class="logo" onclick="showPage('home')">
-                <img src="PowerIcon.png" alt="Power Logo" class="logo-img">
-                <span class="logo-text">EnergyWise</span>
+            <div class="nav-brand">
+                <h1><a href="index.html" style="color: inherit; text-decoration: none;">Speeding Enforcement Insights Dashboard</a></h1>
+                <span class="nav-subtitle">COS30045 Data Visualization</span>
             </div>
-            
-            <!-- Navigation Menu -->
-            <nav class="nav-menu">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link active" data-page="home" onclick="showPage('home')">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-page="televisions" onclick="showPage('televisions')">Televisions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-page="about" onclick="showPage('about')">About Us</a>
-                    </li>
-                </ul>
-            </nav>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="rq1.html" class="nav-link">Detection Methods</a></li>
+                <li><a href="rq2.html" class="nav-link">Seasonal Patterns</a></li>
+                <li><a href="rq3.html" class="nav-link">Jurisdiction Analysis</a></li>
+                <li><a href="rq4.html" class="nav-link">Location Hotspots</a></li>
+                <li><a href="rq5.html" class="nav-link">Age Demographics</a></li>
+            </ul>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Home Page -->
-        <div id="home" class="page active">
-            <section class="hero">
-                <h1>Energy Efficient Appliances for Australian Homes</h1>
-                <p class="hero-subtitle">Discover how the right appliances can reduce your energy consumption and save money on your electricity bills.</p>
-            </section>
-            
-            <section class="content-section">
-                <h2>Understanding Energy Consumption in Australia</h2>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <h3>Average Household Consumption</h3>
-                        <p>The average Australian household consumes approximately 6,000-7,000 kWh of electricity per year, with appliances accounting for about 33% of total energy use.</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Energy Star Ratings</h3>
-                        <p>Look for appliances with high Energy Star ratings (4-6 stars) to maximize efficiency. A 6-star appliance can use up to 50% less energy than a 1-star model.</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Peak Usage Times</h3>
-                        <p>In Australia, peak electricity usage typically occurs between 6-8 PM. Energy-efficient appliances help reduce strain during these costly peak periods.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="content-section">
-                <h2>Top Energy-Consuming Appliances</h2>
-                <div class="appliance-list">
-                    <div class="appliance-item">
-                        <span class="appliance-name">Air Conditioning</span>
-                        <span class="energy-usage">~40% of home energy use</span>
-                    </div>
-                    <div class="appliance-item">
-                        <span class="appliance-name">Water Heating</span>
-                        <span class="energy-usage">~25% of home energy use</span>
-                    </div>
-                    <div class="appliance-item">
-                        <span class="appliance-name">Refrigeration</span>
-                        <span class="energy-usage">~8% of home energy use</span>
-                    </div>
-                    <div class="appliance-item">
-                        <span class="appliance-name">Televisions & Electronics</span>
-                        <span class="energy-usage">~5-7% of home energy use</span>
-                    </div>
-                </div>
-            </section>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Visualisation Project 2025</div>
+            <h1 class="hero-title">Understanding Speeding<br>Enforcement Patterns</h1>
+            <p class="hero-description">
+                A comprehensive analysis of speeding enforcement detection methods, seasonal trends, 
+                and demographic patterns across Australian jurisdictions.
+            </p>
+            <div class="hero-buttons">
+                <a href="rq1.html" class="btn btn-primary">Explore Research</a>
+                <a href="#overview" class="btn btn-secondary">Learn More</a>
+            </div>
         </div>
+        <div class="hero-stats">
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Research Questions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Jurisdictions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">Visualizations</div>
+            </div>
+        </div>
+    </section>
 
-        <!-- Televisions Page -->
-        <div id="televisions" class="page">
-            <section class="page-header">
-                <h1>Energy Efficient Televisions</h1>
-                <p>Choose the right TV to reduce your energy consumption without compromising on entertainment quality.</p>
-            </section>
+    <!-- Overview Section -->
+    <section id="overview" class="section section-light">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Research Overview</h2>
+                <p class="section-description">
+                    This project explores five critical research questions about traffic infractions 
+                    in Australia, using modern data visualization techniques to uncover patterns and insights.
+                </p>
+            </div>
 
-            <section class="content-section">
-                <h2>TV Energy Consumption in Australia</h2>
-                <p>The average Australian household has 2.2 televisions, consuming approximately 200-400 kWh annually per TV. With rising electricity costs, choosing an energy-efficient model can save you $50-100 per year per television.</p>
-                
-                <div class="tv-comparison">
-                    <h3>Energy Consumption by TV Type</h3>
-                    <div class="comparison-grid">
-                        <div class="tv-type">
-                            <h4>LED/LCD TVs</h4>
-                            <p><strong>Power Usage:</strong> 60-120W</p>
-                            <p><strong>Annual Cost:</strong> $40-80</p>
-                            <p>Most energy-efficient option with excellent picture quality.</p>
+            <div class="research-grid">
+                <a href="rq1.html" class="research-card">
+                    <div class="research-number">01</div>
+                    <h3>Detection Method vs Outcomes</h3>
+                    <p>Analyzing the relationship between camera and police detection methods and their resulting outcomes over time.</p>
+                    <div class="research-tags">
+                        <span class="tag">Bar Charts</span>
+                        <span class="tag">Time Series</span>
+                        <span class="tag">Small Multiples</span>
+                    </div>
+                    <div class="research-arrow">→</div>
+                </a>
+
+                <a href="rq2.html" class="research-card">
+                    <div class="research-number">02</div>
+                    <h3>Seasonal Patterns</h3>
+                    <p>Exploring monthly and yearly trends to identify seasonal patterns in traffic infractions across multiple years.</p>
+                    <div class="research-tags">
+                        <span class="tag">Heatmap</span>
+                        <span class="tag">Line Charts</span>
+                        <span class="tag">Temporal Analysis</span>
+                    </div>
+                    <div class="research-arrow">→</div>
+                </a>
+
+                <a href="rq3.html" class="research-card">
+                    <div class="research-number">03</div>
+                    <h3>Method Effectiveness by Jurisdiction</h3>
+                    <p>Comparing detection method effectiveness across Australian states and territories with geographic context.</p>
+                    <div class="research-tags">
+                        <span class="tag">Choropleth Map</span>
+                        <span class="tag">Bar Charts</span>
+                        <span class="tag">Per Capita</span>
+                    </div>
+                    <div class="research-arrow">→</div>
+                </a>
+
+                <a href="rq4.html" class="research-card">
+                    <div class="research-number">04</div>
+                    <h3>Location of Infractions</h3>
+                    <p>Identifying hotspots and analyzing infraction distribution across metropolitan, regional, and remote areas.</p>
+                    <div class="research-tags">
+                        <span class="tag">Hotspot Map</span>
+                        <span class="tag">Stacked Charts</span>
+                        <span class="tag">Location Analysis</span>
+                    </div>
+                    <div class="research-arrow">→</div>
+                </a>
+
+                <a href="rq5.html" class="research-card">
+                    <div class="research-number">05</div>
+                    <h3>Age Groups Analysis</h3>
+                    <p>Analyzing infraction rates per 10,000 license holders across different age demographics.</p>
+                    <div class="research-tags">
+                        <span class="tag">Bar Charts</span>
+                        <span class="tag">Lollipop Charts</span>
+                        <span class="tag">Demographics</span>
+                    </div>
+                    <div class="research-arrow">→</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Findings Section -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Key Findings Snapshot</h2>
+                <p class="section-description">
+                    High-level insights from our comprehensive analysis
+                </p>
+            </div>
+
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <div class="finding-icon">📹</div>
+                    <h4>Camera Detection Growth</h4>
+                    <p class="finding-stat">+145%</p>
+                    <p>Camera detections have increased significantly over the past 5 years, while police detections remain stable.</p>
+                </div>
+
+                <div class="finding-card">
+                    <div class="finding-icon">📅</div>
+                    <h4>Peak Season</h4>
+                    <p class="finding-stat">Dec-Jan</p>
+                    <p>Holiday months show 35% higher infraction rates, likely due to increased travel and tourist activity.</p>
+                </div>
+
+                <div class="finding-card">
+                    <div class="finding-icon">🗺️</div>
+                    <h4>Highest Per Capita</h4>
+                    <p class="finding-stat">Victoria</p>
+                    <p>Victoria leads with 127 infractions per 10,000 residents, followed by NSW and Queensland.</p>
+                </div>
+
+                <div class="finding-card">
+                    <div class="finding-icon">🏙️</div>
+                    <h4>Urban Concentration</h4>
+                    <p class="finding-stat">73%</p>
+                    <p>Metropolitan areas account for nearly three-quarters of all infractions despite having less road distance.</p>
+                </div>
+
+                <div class="finding-card">
+                    <div class="finding-icon">👥</div>
+                    <h4>Highest Risk Age</h4>
+                    <p class="finding-stat">17-24</p>
+                    <p>Young drivers show 284 infractions per 10,000 license holders, the highest among all age groups.</p>
+                </div>
+
+                <div class="finding-card">
+                    <div class="finding-icon">✅</div>
+                    <h4>Safest Drivers</h4>
+                    <p class="finding-stat">55-64</p>
+                    <p>Middle-aged drivers demonstrate the lowest infraction rate with only 67 per 10,000 license holders.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section section-light">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About This Project</h2>
+                    <p>
+                        This comprehensive data visualization project examines speeding enforcement patterns 
+                        across Australia, providing insights into detection methods, temporal trends, 
+                        geographic distribution, and demographic patterns.
+                    </p>
+                    <p>
+                        Using modern visualization techniques including interactive charts, maps, and 
+                        heatmaps, we transform complex datasets into actionable insights that can inform 
+                        traffic safety policies and speeding enforcement strategies.
+                    </p>
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <strong>Interactive Visualizations</strong>
+                            <p>Explore data dynamically with filters and controls</p>
                         </div>
-                        <div class="tv-type">
-                            <h4>OLED TVs</h4>
-                            <p><strong>Power Usage:</strong> 100-150W</p>
-                            <p><strong>Annual Cost:</strong> $65-100</p>
-                            <p>Superior picture quality with moderate energy consumption.</p>
+                        <div class="feature-item">
+                            <strong>Multiple Perspectives</strong>
+                            <p>View data through different chart types and metrics</p>
                         </div>
-                        <div class="tv-type">
-                            <h4>Plasma TVs (Legacy)</h4>
-                            <p><strong>Power Usage:</strong> 200-400W</p>
-                            <p><strong>Annual Cost:</strong> $130-260</p>
-                            <p>High energy consumption - consider upgrading to newer technology.</p>
+                        <div class="feature-item">
+                            <strong>Comprehensive Coverage</strong>
+                            <p>Analysis across 8 jurisdictions and 6 years of data</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="energy-tips">
-                    <h3>Tips for Reducing TV Energy Consumption</h3>
-                    <ul>
-                        <li>Use automatic brightness settings to adjust to room lighting</li>
-                        <li>Enable power-saving modes when available</li>
-                        <li>Turn off TVs completely rather than leaving on standby</li>
-                        <li>Consider smaller screen sizes for secondary rooms</li>
-                        <li>Look for Energy Star certified models</li>
-                    </ul>
+                <div class="about-stats-large">
+                    <div class="about-stat-item">
+                        <div class="about-stat-value">228,000+</div>
+                        <div class="about-stat-label">Infractions Analyzed</div>
+                    </div>
+                    <div class="about-stat-item">
+                        <div class="about-stat-value">6 Years</div>
+                        <div class="about-stat-label">Data Coverage</div>
+                    </div>
+                    <div class="about-stat-item">
+                        <div class="about-stat-value">8 States</div>
+                        <div class="about-stat-label">Jurisdictions</div>
+                    </div>
                 </div>
-            </section>
+            </div>
         </div>
-
-        <!-- About Us Page -->
-        <div id="about" class="page">
-            <section class="page-header">
-                <h1>About EnergyWise</h1>
-                <p>Your trusted guide to energy-efficient appliances in the Australian market.</p>
-            </section>
-
-            <section class="content-section">
-                <h2>Our Mission</h2>
-                <p>EnergyWise is dedicated to helping Australian households make informed decisions about energy-efficient appliances. We provide comprehensive information about energy consumption, cost savings, and environmental impact to help you choose appliances that benefit both your wallet and the planet.</p>
-
-                <h2>Why Energy Efficiency Matters</h2>
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <h3>💰 Cost Savings</h3>
-                        <p>Energy-efficient appliances can reduce your electricity bills by 20-50%, saving hundreds of dollars annually.</p>
-                    </div>
-                    <div class="benefit-card">
-                        <h3>🌍 Environmental Impact</h3>
-                        <p>Reducing energy consumption helps decrease greenhouse gas emissions and supports Australia's renewable energy goals.</p>
-                    </div>
-                    <div class="benefit-card">
-                        <h3>🏠 Home Value</h3>
-                        <p>Energy-efficient appliances increase property value and appeal to environmentally conscious buyers.</p>
-                    </div>
-                    <div class="benefit-card">
-                        <h3>⚡ Grid Stability</h3>
-                        <p>Lower energy demand helps stabilize the electricity grid and reduces the need for additional power infrastructure.</p>
-                    </div>
-                </div>
-
-                <h2>Australian Energy Context</h2>
-                <p>Australia has some of the highest electricity prices globally, making energy efficiency crucial for household budgets. With increasing adoption of renewable energy sources like solar and wind, efficient appliances help maximize the benefits of clean energy while reducing reliance on fossil fuels.</p>
-
-                <div class="stats-section">
-                    <h3>Key Statistics</h3>
-                    <ul>
-                        <li>Average Australian electricity price: 25-35 cents per kWh</li>
-                        <li>Household appliances account for 33% of residential energy use</li>
-                        <li>Energy-efficient appliances can reduce consumption by 20-50%</li>
-                        <li>Over 2.5 million Australian homes now have solar panels</li>
-                    </ul>
-                </div>
-            </section>
-        </div>
-    </main>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2025 EnergyWise Australia | <span id="user-name">Rafid Al Jawad (102776293)</span></p>
-            <p class="genai-acknowledgment">Content and code assistance provided by generative AI technology</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Speeding Enforcement Insights Dashboard</h3>
+                    <p>Created by group 2 COS30045</p>
+                    <p class="footer-year">© 2025</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Data Sources</h4>
+                    <p>Australian Bureau of Statistics</p>
+                    <p>State & Territory Traffic Authorities</p>
+                    <p>Department of Transport</p>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Scripts -->
+    <script src="main.js"></script>
 </body>
 </html>
