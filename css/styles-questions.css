@@ -4,7 +4,7 @@
 .page-header {
     background: linear-gradient(to bottom, var(--beige-50) 0%, #ffffff 100%);
     color: var(--beige-800);
-    padding: 8rem 2rem 3rem;
+    padding: 3rem 2rem 3rem;
     margin-top: 70px;
     border-bottom: 1px solid var(--beige-200);
 }
