@@ -1,0 +1,79 @@
+╔═══════════════════════════════════════════════════════════════════════╗
+║         RQ5: AGE GROUP ANALYSIS - BUBBLE CHART VISUALIZATION         ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+📊 VISUALIZATION TYPE: Interactive Bubble Chart
+
+🎯 PURPOSE: Show how speeding offences vary across driver age groups after 
+            accounting for license holder population (2010-2024)
+
+═══════════════════════════════════════════════════════════════════════
+
+🔍 KEY FEATURES:
+
+✓ Dynamic Filters
+  • Year: 2010-2024 or "All Years"
+  • Jurisdiction: ACT, NSW, NT, QLD, SA, TAS, VIC, WA or "All"
+
+✓ Bubble Meaning
+  • X-Position: Age group (0-16, 17-25, 26-39, 40-64, 65+)
+  • Y-Position: Infraction rate per 10,000 license holders
+  • Size: Total number of infractions
+  • Color: Age group identifier
+
+✓ Interactive Elements
+  • Hover over bubbles for detailed statistics
+  • Smooth animations on load and filter changes
+  • Automatic data aggregation based on filters
+
+═══════════════════════════════════════════════════════════════════════
+
+📈 EXPECTED PATTERNS:
+
+1. 17-25 Age Group:
+   ⚠️  Highest bubble position (highest rate)
+   📍 Typically largest bubble size
+   🔵 Blue color
+
+2. 40-64 Age Group:
+   ✅  Lowest bubble position (lowest rate)
+   📍 Moderate bubble size
+   🔴 Red color
+
+3. Progressive Decline:
+   📉 Bubbles generally descend from left to right
+   📊 Shows maturity effect on driving behavior
+
+═══════════════════════════════════════════════════════════════════════
+
+💾 DATA SOURCE:
+   File: final.csv
+   Rows: 180 (filtered to ~73 age-specific rows)
+   Years: 2010-2024 (15 years)
+   States: 8 jurisdictions
+
+═══════════════════════════════════════════════════════════════════════
+
+🚀 QUICK START:
+
+1. Open rq5.html in browser
+2. Wait for visualization to load (~1 second)
+3. Use filters to explore specific years/jurisdictions
+4. Hover over bubbles for details
+5. Compare patterns across different selections
+
+═══════════════════════════════════════════════════════════════════════
+
+📝 FILES INVOLVED:
+
+✓ rq5.html         - Main page with filters
+✓ js/rq5.js        - Visualization logic (D3.js)
+✓ final.csv        - Data source
+✓ css/styles-questions.css - Styling
+
+═══════════════════════════════════════════════════════════════════════
+
+✨ STATUS: READY TO USE ✨
+
+No additional setup required. Simply open rq5.html in a modern browser!
+

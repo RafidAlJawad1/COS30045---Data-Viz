@@ -10,9 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-    
     <!-- D3.js -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
@@ -53,44 +50,56 @@
         <div class="container">
             <div class="viz-controls">
                 <label class="control-label">
-                    <span>Chart Style:</span>
-                    <select id="rq5-style" class="control-select">
-                        <option value="bar">Bar Chart</option>
-                        <option value="lollipop">Lollipop Chart</option>
+                    <span>Year:</span>
+                    <select id="rq5-year" class="control-select">
+                        <option value="all">All Years</option>
                     </select>
                 </label>
                 <label class="control-label">
-                    <span>Sort By:</span>
-                    <select id="rq5-sort" class="control-select">
-                        <option value="age">Age Group</option>
-                        <option value="rate">Infraction Rate</option>
+                    <span>Jurisdiction:</span>
+                    <select id="rq5-jurisdiction" class="control-select">
+                        <option value="all">All Jurisdictions</option>
                     </select>
                 </label>
             </div>
 
-            <div class="chart-container">
-                <canvas id="rq5-chart"></canvas>
+            <div id="rq5-bubble-chart" class="chart-container" style="min-height: 600px; display: flex; align-items: center; justify-content: center;">
+                <p style="color: #6b7280;">Loading visualization...</p>
             </div>
 
-            <div id="rq5-lollipop" class="lollipop-container" style="display: none;">
-                <svg id="rq5-lollipop-svg"></svg>
+            <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 30px 0;">
+                <h4 style="margin: 0 0 10px 0; color: #111827;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 5px;">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v-4"></path>
+                        <path d="M12 8h.01"></path>
+                    </svg>
+                    How to Use This Visualization
+                </h4>
+                <ul style="margin: 0; padding-left: 20px; color: #4b5563; line-height: 1.8;">
+                    <li><strong>Bubble Position:</strong> X-axis shows age groups, Y-axis shows infraction rate per 10,000 license holders</li>
+                    <li><strong>Bubble Size:</strong> Larger bubbles represent more total infractions</li>
+                    <li><strong>Bubble Color:</strong> Each age group has a unique color for easy identification</li>
+                    <li><strong>Filters:</strong> Use the dropdowns above to filter by specific year or jurisdiction</li>
+                    <li><strong>Hover:</strong> Move your mouse over any bubble to see detailed statistics</li>
+                </ul>
             </div>
 
             <div class="insights">
                 <div class="insight-card">
                     <h4>Highest Risk Group</h4>
-                    <p>Drivers aged <strong>17-24</strong> show the highest infraction rate at 
-                    <strong>284 per 10,000 license holders</strong>.</p>
+                    <p>Drivers aged <strong>17-25</strong> consistently show the highest infraction rate 
+                    when adjusted for license holders.</p>
                 </div>
                 <div class="insight-card">
                     <h4>Safest Group</h4>
-                    <p>Drivers aged <strong>55-64</strong> demonstrate the lowest infraction rate, 
-                    with only <strong>67 per 10,000 license holders</strong>.</p>
+                    <p>Drivers aged <strong>40-64</strong> demonstrate the lowest infraction rates across most 
+                    years and jurisdictions.</p>
                 </div>
                 <div class="insight-card">
                     <h4>Trend</h4>
                     <p>Infraction rates show a steady <strong>declining trend</strong> with increasing age, 
-                    with a slight uptick in the 75+ category.</p>
+                    reflecting driver experience and maturity.</p>
                 </div>
             </div>
         </div>
@@ -99,7 +108,7 @@
     <!-- Analysis Section -->
     <section class="section section-dark">
         <div class="container">
-            <h2 class="section-title">Demographic Analysis</h2>
+            <h2 class="section-title">Demographic Analysis (2010-2024)</h2>
             
             <div class="analysis-grid">
                 <div class="analysis-card">
@@ -110,17 +119,18 @@
                             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                         </svg>
-                        Young Drivers (17-24)
+                        Young Drivers (17-25)
                     </h3>
                     <p>
-                        Young drivers show dramatically higher infraction rates even when adjusted for the number 
-                        of license holders. This group's rate is 4.2x higher than the safest age group, indicating 
-                        significant risk factors including inexperience, risk-taking behavior, and lifestyle patterns.
+                        Young drivers consistently show the highest infraction rates across all jurisdictions 
+                        and years when adjusted for license holders. The bubble chart reveals significant 
+                        risk factors including inexperience, risk-taking behavior, and lifestyle patterns 
+                        that persist across different time periods.
                     </p>
                     <ul>
-                        <li>Rate: 284 per 10,000 license holders</li>
-                        <li>Total infractions: 35,500</li>
-                        <li>Most common: Speeding and mobile phone use</li>
+                        <li>Consistently highest rate per 10,000 license holders</li>
+                        <li>Significant variation between jurisdictions</li>
+                        <li>Pattern remains stable over 2010-2024 period</li>
                     </ul>
                 </div>
 
@@ -129,17 +139,17 @@
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;">
                             <path d="M18 20V10M12 20V4M6 20v-6"></path>
                         </svg>
-                        Young Adults (25-34)
+                        Young Adults (26-39)
                     </h3>
                     <p>
-                        The 25-34 age group shows elevated but declining infraction rates compared to teenagers. 
-                        This transition period reflects increasing driving experience and potentially more stable 
-                        lifestyle patterns, though rates remain notably above middle-aged drivers.
+                        The 26-39 age group shows moderate infraction rates, typically falling between young 
+                        drivers and middle-aged drivers. The bubble visualization reveals this transition period 
+                        where driving behavior becomes more stable, though regional variations are significant.
                     </p>
                     <ul>
-                        <li>Rate: 230 per 10,000 license holders</li>
-                        <li>Total infractions: 48,300</li>
-                        <li>19% reduction from 17-24 group</li>
+                        <li>Moderate infraction rates across all years</li>
+                        <li>Shows gradual improvement with age</li>
+                        <li>Significant jurisdiction-to-jurisdiction variation</li>
                     </ul>
                 </div>
 
@@ -149,17 +159,17 @@
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
-                        Middle-Aged Drivers (35-54)
+                        Middle-Aged Drivers (40-64)
                     </h3>
                     <p>
-                        Middle-aged drivers demonstrate significantly lower infraction rates, reflecting decades 
-                        of driving experience, established routines, and potentially different time pressures. 
-                        This group represents the baseline for safe driving behavior.
+                        Middle-aged drivers consistently demonstrate the lowest infraction rates per license holder 
+                        across most jurisdictions and years. The bubble chart clearly shows smaller bubble sizes 
+                        and lower rates, reflecting decades of driving experience and established safe driving patterns.
                     </p>
                     <ul>
-                        <li>35-44: 180 per 10,000 license holders</li>
-                        <li>45-54: 142 per 10,000 license holders</li>
-                        <li>Stable, responsible driving patterns</li>
+                        <li>Lowest rates in most years and jurisdictions</li>
+                        <li>Most stable behavior patterns over time</li>
+                        <li>Represents baseline for safe driving behavior</li>
                     </ul>
                 </div>
 
@@ -169,17 +179,17 @@
                             <circle cx="12" cy="8" r="7"></circle>
                             <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
                         </svg>
-                        Older Drivers (55+)
+                        Senior Drivers (65 and over)
                     </h3>
                     <p>
-                        Older drivers show the lowest infraction rates across most age brackets, with the 55-64 
-                        group demonstrating exceptional compliance. The slight increase in the 75+ category may 
-                        reflect changing abilities rather than intentional violations.
+                        Senior drivers show varying patterns across jurisdictions. While generally maintaining 
+                        low infraction rates, the bubble chart reveals interesting differences by region. Use the 
+                        filters to explore specific jurisdictions and years for detailed insights.
                     </p>
                     <ul>
-                        <li>55-64: 67 per 10,000 (lowest rate)</li>
-                        <li>65-74: 70 per 10,000</li>
-                        <li>75+: 90 per 10,000 (slight increase)</li>
+                        <li>Generally low rates per 10,000 license holders</li>
+                        <li>Regional variation in patterns</li>
+                        <li>Data availability varies by jurisdiction</li>
                     </ul>
                 </div>
             </div>
@@ -288,7 +298,6 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="data.js"></script>
     <script src="js/rq5.js"></script>
     <script src="main.js"></script>
 </body>

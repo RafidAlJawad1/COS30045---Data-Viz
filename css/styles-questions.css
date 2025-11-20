@@ -421,3 +421,32 @@
     }
 }
 
+/* Bubble Chart Styles */
+#rq5-bubble-chart {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#rq5-bubble-chart svg {
+    font-family: 'Inter', sans-serif;
+    overflow: visible;
+}
+
+#rq5-bubble-chart .grid line {
+    stroke: #e5e7eb;
+}
+
+#rq5-bubble-chart .grid path {
+    stroke-width: 0;
+}
+
+.bubble-tooltip {
+    line-height: 1.6;
+}
+
+.bubble-tooltip strong {
+    color: #10b981;
+}
+
