@@ -1,36 +1,38 @@
-// RQ3: Method Effectiveness by Jurisdiction
-// D3 Map Visualization with real data from Q3DATA.csv
-
+// ---------------------------
+// D3 Map Viewer (TopoJSON) - scoped to Q3 (ASYNC FIX)
+// ---------------------------
 (function(){
 
 // Use the map card inner dimensions so the SVG fills the card
-const mapContainer = document.getElementById('rq3-map') ? document.getElementById('rq3-map').parentElement : document.querySelector('.map-container');
-let width = mapContainer ? Math.max(200, mapContainer.clientWidth) : 900;
-let height = mapContainer ? Math.max(200, mapContainer.clientHeight) : 600;
+const mapContainer = document.getElementById('map-q3') ? document.getElementById('map-q3').parentElement : (document.querySelector('#card-q3 .map-inner') || document.querySelector('.map-inner'));
+let width = mapContainer ? Math.max(200, mapContainer.clientWidth) : window.innerWidth;
+let height = mapContainer ? Math.max(200, mapContainer.clientHeight) : window.innerHeight;
 
-const svg = d3.select("#rq3-map")
+const svg = d3.select("#map-q3")
   .attr("width", width)
   .attr("height", height)
   .style('cursor','grab');
 
 const g = svg.append("g");
 
-const infoPanel = d3.select("#infoPanel-rq3");
-const loading = d3.select("#loading-rq3");
+const infoPanel = d3.select("#infoPanel-q3");
+const loading = d3.select("#loading-q3");
 
 let projection, path, geojsonData;
+// small horizontal shift (pixels) to nudge the map left
 const horizontalShift = 150;
 
-// Zoom setup
+// Disable all zoom gestures, allow only programmatic zoom
 const zoom = d3.zoom()
   .scaleExtent([0.8, 12])
   .on("zoom", (event) => g.attr("transform", event.transform))
   .on("start", () => svg.style('cursor','grabbing'))
   .on("end", () => svg.style('cursor','grab'));
 
+// Attach zoom to enable panning via drag, but disable wheel/dblclick zoom gestures
 svg.call(zoom).on("wheel.zoom", null).on("dblclick.zoom", null);
 
-// State labels
+// State labels (optional)
 const labels = [
   { name: "Western Australia", coords: [122, -25] },
   { name: "Northern Territory", coords: [133, -20] },
@@ -41,36 +43,27 @@ const labels = [
   { name: "Tasmania", coords: [147, -42] },
 ];
 
-// Data and state variables
-let q3DataLookup = {};
-let currentYear = 2024;
-let currentMode = 'both';
-let globalStats = {
-  camera: { min: Infinity, max: -Infinity },
-  police: { min: Infinity, max: -Infinity },
-  both:   { min: Infinity, max: -Infinity }
-};
-
-// Async loading flags
-let topojsonLoaded = false;
-let csvLoaded = false;
-
-// Info panel update
+// Info panel update: render a pie chart of Camera% vs Police% for the currently-hovered feature
 function updateInfo(properties) {
+  // clear existing content
   infoPanel.html('');
   if (!properties) {
     infoPanel.html("<h3>Feature Info</h3><div class='hint'>Hover over features to see details</div>");
     return;
   }
+  // Header
   infoPanel.append('h3').text('Feature Info');
 
+  // determine jurisdiction code and lookup CSV row for current year
   const code = getJurisdictionFromProps(properties);
   const row = (code && q3DataLookup[code]) ? q3DataLookup[code][currentYear] : null;
 
+  // prepare values for pie chart: camera% and police%
   let camPerc = null, polPerc = null;
   if (row) {
     camPerc = row.Camera_Percentage != null ? +row.Camera_Percentage : null;
     polPerc = row.Police_Percentage != null ? +row.Police_Percentage : null;
+    // fallback: if percentages missing but counts present, compute percent share
     if ((camPerc == null || polPerc == null) && (row.Camera_offence_per10k != null || row.Police_offence_per10k != null)){
       const c = Number(row.Camera_offence_per10k) || 0;
       const p = Number(row.Police_offence_per10k) || 0;
@@ -82,10 +75,12 @@ function updateInfo(properties) {
     }
   }
 
+  // Row: pie chart (left) and info (right)
   const rowDiv = infoPanel.append('div').attr('class','q3-info-row');
   const chartDiv = rowDiv.append('div').attr('class','q3-chart').node();
   const infoBlock = rowDiv.append('div').attr('class','q3-info-block');
 
+  // draw pie if we have percentage values
   const color = d3.scaleOrdinal().domain(['Camera','Police']).range(['#3388ff','#ff5a5a']);
   if (camPerc != null && polPerc != null) {
     const data = [ {label:'Camera', value:camPerc}, {label:'Police', value:polPerc} ];
@@ -98,6 +93,7 @@ function updateInfo(properties) {
     const arcs = gChart.selectAll('.arc').data(pie(data)).enter().append('g').attr('class','arc');
     arcs.append('path').attr('d', arc).attr('fill', d=>color(d.data.label)).attr('stroke','white').attr('stroke-width',2);
 
+    // mini legend
     const legend = infoBlock.append('div').attr('class','q3-legend');
     data.forEach(d=>{
       const item = legend.append('div').style('display','flex').style('align-items','center').style('gap','8px').style('margin','4px 0');
@@ -108,6 +104,7 @@ function updateInfo(properties) {
     infoBlock.append('div').attr('class','hint').text('No Camera/Police percentage data available for this feature/year.');
   }
 
+  // show name and counts to the right of the pie
   const name = (properties && (properties.RA_NAME21 || properties.name || properties.NAME || properties.id)) || 'Region';
   const camCount = row && row.Camera_offence_per10k != null ? Number(row.Camera_offence_per10k) : null;
   const polCount = row && row.Police_offence_per10k != null ? Number(row.Police_offence_per10k) : null;
@@ -115,7 +112,7 @@ function updateInfo(properties) {
   infoBlock.append('div').attr('class','property').html(`<div class="property-key">Camera (per10k):</div><div class="property-value">${camCount != null ? camCount.toLocaleString() : 'N/A'}</div>`);
   infoBlock.append('div').attr('class','property').html(`<div class="property-key">Police (per10k):</div><div class="property-value">${polCount != null ? polCount.toLocaleString() : 'N/A'}</div>`);
 
-  // Line chart
+  // Line chart below: offences per10k across years for camera and police
   const lineDiv = infoPanel.append('div').attr('class','q3-linechart');
   const yearsData = [];
   if (code && q3DataLookup[code]) {
@@ -128,10 +125,13 @@ function updateInfo(properties) {
   yearsData.sort((a,b)=>a.year - b.year);
 
   if (yearsData.length > 0) {
+    // responsive width based on container (fall back to 300)
     const containerWidth = (lineDiv.node && lineDiv.node() && lineDiv.node().clientWidth) ? lineDiv.node().clientWidth : 300;
     const lw = Math.max(220, containerWidth);
     const lh = 120;
+    // increase right margin so the final year label (e.g. 2024) isn't clipped
     const margin = {top:6,right:30,bottom:22,left:30};
+    // clear any previous svg (safety)
     lineDiv.selectAll('svg').remove();
     const svgL = lineDiv.append('svg').attr('width', lw).attr('height', lh);
     const innerW = lw - margin.left - margin.right;
@@ -139,10 +139,12 @@ function updateInfo(properties) {
     const gL = svgL.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
     const x = d3.scaleLinear().domain(d3.extent(yearsData, d=>d.year)).range([0, innerW]);
+    // if only a single year, expand domain so chart can render
     const xDomain = d3.extent(yearsData, d=>d.year);
     if (xDomain[0] === xDomain[1]) {
       x.domain([xDomain[0] - 1, xDomain[1] + 1]);
     }
+    // y domain should cover both camera and police values
     const yMin = d3.min(yearsData, d => { const vals = [d.camera, d.police].filter(v=>v!=null); return vals.length? d3.min(vals):0; });
     const yMax = d3.max(yearsData, d => { const vals = [d.camera, d.police].filter(v=>v!=null); return vals.length? d3.max(vals):1; });
     const yMinSafe = (yMin == null || isNaN(yMin)) ? 0 : yMin;
@@ -152,14 +154,17 @@ function updateInfo(properties) {
     const lineCam = d3.line().defined(d=>d.camera!=null).x(d=>x(d.year)).y(d=>yScale(d.camera));
     const linePol = d3.line().defined(d=>d.police!=null).x(d=>x(d.year)).y(d=>yScale(d.police));
 
+    // axes
     const xAxis = d3.axisBottom(x).ticks(Math.min(6, yearsData.length)).tickFormat(d3.format('d'));
     const yAxis = d3.axisLeft(yScale).ticks(3).tickFormat(d=>d.toFixed(0));
     gL.append('g').attr('class','y axis').call(yAxis).selectAll('text').style('font-size','10px');
     gL.append('g').attr('class','x axis').attr('transform', `translate(0,${innerH})`).call(xAxis).selectAll('text').style('font-size','10px');
 
+    // draw lines
     gL.append('path').datum(yearsData).attr('fill','none').attr('stroke','#3388ff').attr('stroke-width',2).attr('d', lineCam);
     gL.append('path').datum(yearsData).attr('fill','none').attr('stroke','#ff5a5a').attr('stroke-width',2).attr('d', linePol);
 
+    // points for camera
     gL.selectAll('.pt-cam').data(yearsData.filter(d=>d.camera!=null)).enter().append('circle').attr('class','pt-cam')
       .attr('r', d => (d.year === currentYear ? 5 : 3))
       .attr('cx', d => x(d.year))
@@ -167,6 +172,7 @@ function updateInfo(properties) {
       .attr('fill', '#3388ff')
       .attr('stroke', d => (d.year === currentYear ? '#222' : 'none'))
       .attr('stroke-width', d => (d.year === currentYear ? 1.25 : 0));
+    // points for police
     gL.selectAll('.pt-pol').data(yearsData.filter(d=>d.police!=null)).enter().append('circle').attr('class','pt-pol')
       .attr('r', d => (d.year === currentYear ? 5 : 3))
       .attr('cx', d => x(d.year))
@@ -174,6 +180,7 @@ function updateInfo(properties) {
       .attr('fill', '#ff5a5a')
       .attr('stroke', d => (d.year === currentYear ? '#222' : 'none'))
       .attr('stroke-width', d => (d.year === currentYear ? 1.25 : 0));
+
   } else {
     infoPanel.append('div').attr('class','hint').text('No time-series offence data available for this feature.');
   }
@@ -195,6 +202,10 @@ function fitToMap() {
     .call(zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
 }
 
+// --- Async loading flags ---
+let topojsonLoaded = false;
+let csvLoaded = false;
+
 function tryUpdateChoropleth() {
   if (topojsonLoaded && csvLoaded) {
     console.log('Both files loaded - updating choropleth');
@@ -202,21 +213,41 @@ function tryUpdateChoropleth() {
   }
 }
 
+// --- Year slider and data-driven coloring ---
+let q3DataLookup = {};
+let currentYear = 2024;
+let currentMode = 'both';
+// global min/max across all years, computed after CSV load
+let globalStats = {
+  camera: { min: Infinity, max: -Infinity },
+  police: { min: Infinity, max: -Infinity },
+  both:   { min: Infinity, max: -Infinity }
+};
+
 function getJurisdictionFromProps(props) {
   if (!props) return null;
   if (props.id) {
     const id = props.id.toUpperCase().trim();
     const validCodes = ['NSW', 'NT', 'QLD', 'WA', 'SA', 'TAS', 'VIC', 'ACT'];
-    if (validCodes.includes(id)) return id;
+    if (validCodes.includes(id)) {
+      return id;
+    }
   }
   if (props.name) {
     const name = props.name.trim().toUpperCase();
     const MAP = {
-      'NEW SOUTH WALES': 'NSW', 'NORTHERN TERRITORY': 'NT', 'QUEENSLAND': 'QLD', 'WESTERN AUSTRALIA': 'WA',
-      'SOUTH AUSTRALIA': 'SA', 'TASMANIA': 'TAS', 'VICTORIA': 'VIC', 'AUSTRALIAN CAPITAL TERRITORY': 'ACT'
+      'NEW SOUTH WALES': 'NSW',
+      'NORTHERN TERRITORY': 'NT',
+      'QUEENSLAND': 'QLD',
+      'WESTERN AUSTRALIA': 'WA',
+      'SOUTH AUSTRALIA': 'SA',
+      'TASMANIA': 'TAS',
+      'VICTORIA': 'VIC',
+      'AUSTRALIAN CAPITAL TERRITORY': 'ACT'
     };
     return MAP[name] || null;
   }
+  console.warn('Unmapped jurisdiction:', props);
   return null;
 }
 
@@ -234,6 +265,7 @@ function getValueByMode(row){
 }
 
 function updateChoropleth(year){
+  // Use global min/max for the selected mode so the legend stays constant across years
   const stats = globalStats[currentMode] || { min: 0, max: 1 };
   const min = (stats.min != null) ? stats.min : 0;
   const max = (stats.max != null) ? stats.max : 1;
@@ -248,11 +280,11 @@ function updateChoropleth(year){
     const val = getValueByMode(entry);
     return val != null ? color(val) : '#eee';
   });
-  d3.select('#year-label-rq3').text(year);
+  d3.select('#year-label-q3').text(year);
   updateLegend(year, min, max, color);
 }
 
-// Load TopoJSON
+// Load and draw TopoJSON
 d3.json("mapOfKangaroos.json")
   .then((topology) => {
     loading.style("display", "none");
@@ -262,6 +294,7 @@ d3.json("mapOfKangaroos.json")
     projection = d3.geoIdentity().reflectY(true).fitSize([width, height], data);
     path = d3.geoPath(projection);
 
+    // Create hover tooltip (shows basic feature info)
     const tooltip = d3.select('body')
       .append('div')
       .attr('class', 'map-tooltip')
@@ -270,6 +303,7 @@ d3.json("mapOfKangaroos.json")
       .style('display', 'none')
       .style('z-index', 99999);
 
+    // Draw features
     g.selectAll(".feature")
       .data(data.features)
       .enter()
@@ -277,8 +311,11 @@ d3.json("mapOfKangaroos.json")
       .attr("class", "feature")
       .attr("d", path)
       .on("mouseenter", function (event, d) {
+        const code = getJurisdictionFromProps(d.properties);
+        const entry = (q3DataLookup[code] && q3DataLookup[code][currentYear]) ? q3DataLookup[code][currentYear] : null;
         d3.select(this).classed("highlighted", true).transition().duration(150).attr("fill-opacity", 0.55);
         updateInfo(d.properties);
+        // tooltip content
         const name = (d.properties && (d.properties.RA_NAME21 || d.properties.RA_CODE21 || d.properties.name)) || 'Region';
         tooltip.style('display','block').html(`<strong>${name}</strong>`);
       })
@@ -291,24 +328,39 @@ d3.json("mapOfKangaroos.json")
         d3.select(this).transition().duration(150).attr("fill-opacity", 0.3).on('end', function(){ d3.select(this).classed('highlighted', false); });
         updateInfo(null);
         tooltip.style('display','none');
-      })
+      });
+
+    // Click/select logic
+    g.selectAll('.feature')
       .on('click', function(event, d){
         event.stopPropagation();
+        const code = getJurisdictionFromProps(d.properties);
+        const entry = (q3DataLookup[code] && q3DataLookup[code][currentYear]) ? q3DataLookup[code][currentYear] : null;
+        
         g.selectAll('.feature').classed('selected', false);
         d3.select(this).classed('selected', true);
         updateInfo(d.properties);
       });
 
+    // Add labels
     g.selectAll(".state-label")
       .data(labels)
       .enter()
       .append("text")
       .attr("class", "state-label")
-      .attr("x", (d) => { const p = projection(d.coords); return p ? p[0] : 0; })
-      .attr("y", (d) => { const p = projection(d.coords); return p ? p[1] : 0; })
+      .attr("x", (d) => {
+        const p = projection(d.coords);
+        return p ? p[0] : 0;
+      })
+      .attr("y", (d) => {
+        const p = projection(d.coords);
+        return p ? p[1] : 0;
+      })
       .text((d) => d.name);
 
     fitToMap();
+
+    // Mark TopoJSON as loaded
     topojsonLoaded = true;
     tryUpdateChoropleth();
   })
@@ -318,24 +370,26 @@ d3.json("mapOfKangaroos.json")
   });
 
 // Zoom buttons
-d3.select("#zoomIn-rq3").on("click", () => {
+d3.select("#zoomIn-q3").on("click", () => {
   svg.transition().duration(300).call(zoom.scaleBy, 1.5);
 });
-d3.select("#zoomOut-rq3").on("click", () => {
+d3.select("#zoomOut-q3").on("click", () => {
   svg.transition().duration(300).call(zoom.scaleBy, 0.67);
 });
-d3.select("#reset-rq3").on("click", fitToMap);
+d3.select("#reset-q3").on("click", fitToMap);
 
 // Load CSV data
 d3.csv('data/Q3DATA.csv', d3.autoType).then(rows => {
   console.log('CSV loaded, rows:', rows.length);
   
+  // Build lookup
   rows.forEach(r => {
     const code = (''+r.JURISDICTION).toUpperCase().trim();
     q3DataLookup[code] = q3DataLookup[code] || {};
     q3DataLookup[code][+r.YEAR] = r;
   });
 
+  // compute global min/max for each display mode across all years
   Object.keys(q3DataLookup).forEach(code => {
     Object.keys(q3DataLookup[code]).forEach(yr => {
       const row = q3DataLookup[code][yr];
@@ -352,6 +406,7 @@ d3.csv('data/Q3DATA.csv', d3.autoType).then(rows => {
         globalStats.police.max = Math.max(globalStats.police.max, pol);
       }
 
+      // both uses the numeric offence_per10k values (fallback to 0 if missing)
       const cnum = (!isNaN(Number(row.Camera_offence_per10k))) ? Number(row.Camera_offence_per10k) : 0;
       const pnum = (!isNaN(Number(row.Police_offence_per10k))) ? Number(row.Police_offence_per10k) : 0;
       const sum = cnum + pnum;
@@ -359,49 +414,56 @@ d3.csv('data/Q3DATA.csv', d3.autoType).then(rows => {
       globalStats.both.max = Math.max(globalStats.both.max, sum);
     });
   });
-  
+  // normalize infinities to sensible defaults
   ['camera','police','both'].forEach(k => {
     if (globalStats[k].min === Infinity) globalStats[k].min = 0;
     if (globalStats[k].max === -Infinity) globalStats[k].max = 1;
   });
   console.log('Global stats computed:', globalStats);
 
+  // Debug NT
+  console.log('NT 2024 data:', q3DataLookup['NT']?.[2024]);
+
+  // Mark CSV as loaded
   csvLoaded = true;
   tryUpdateChoropleth();
 
-  const slider = d3.select('#year-slider-rq3');
+  // Hook up slider/mode tabs
+  const slider = d3.select('#year-slider-q3');
   if(!slider.empty()){
     slider.on('input', (event) => {
       currentYear = +event.target.value;
       updateChoropleth(currentYear);
+      // if a feature is currently selected, refresh its info panel so the mini-chart updates
       const sel = g.select('.feature.selected');
       if (!sel.empty()) {
         const selDatum = sel.datum();
         if (selDatum && selDatum.properties) updateInfo(selDatum.properties);
-        }
+      }
     });
-}
+  }
 
   function setMode(mode){
     currentMode = mode;
-    d3.selectAll('#mode-tabs-rq3 .mode-tab').classed('active', false);
-    d3.select('#mode-'+mode+'-rq3').classed('active', true);
+    d3.selectAll('#mode-tabs-q3 .mode-tab').classed('active', false);
+    d3.select('#mode-'+mode+'-q3').classed('active', true);
     updateChoropleth(currentYear);
   }
-  d3.select('#mode-camera-rq3').on('click', () => setMode('camera'));
-  d3.select('#mode-police-rq3').on('click', () => setMode('police'));
-  d3.select('#mode-both-rq3').on('click', () => setMode('both'));
+  d3.select('#mode-camera-q3').on('click', () => setMode('camera'));
+  d3.select('#mode-police-q3').on('click', () => setMode('police'));
+  d3.select('#mode-both-q3').on('click', () => setMode('both'));
   setMode(currentMode);
 }).catch(err => {
   console.warn('Failed to load Q3 CSV:', err);
   loading.html(`CSV Error: ${err.message}`);
 });
 
+// --- Add Legend with VALUES ---
 function updateLegend(year, min, max, color) {
-  let legend = d3.select('#legend-rq3');
+  let legend = d3.select('#legend-q3');
   if (legend.empty()) {
-    legend = d3.select('#card-rq3').append('div')
-      .attr('id', 'legend-rq3')
+    legend = d3.select('#card-q3').append('div')
+      .attr('id', 'legend-q3')
       .style('margin', '12px 18px')
       .style('padding', '12px')
       .style('background', '#f9f9f9')
@@ -426,13 +488,13 @@ function updateLegend(year, min, max, color) {
   
   const gradient = svgLegend.append('defs')
     .append('linearGradient')
-    .attr('id', 'legend-gradient-rq3')
+    .attr('id', 'legend-gradient')
     .attr('x1', 0).attr('y1', 0).attr('x2', 1).attr('y2', 0);
   
   gradient.append('stop').attr('offset', '0%').attr('stop-color', color(min));
   gradient.append('stop').attr('offset', '100%').attr('stop-color', color(max));
   
-  svgLegend.append('rect').attr('width', width).attr('height', height).style('fill', 'url(#legend-gradient-rq3)');
+  svgLegend.append('rect').attr('width', width).attr('height', height).style('fill', 'url(#legend-gradient)');
   
   svgLegend.append('text')
     .attr('x', 0)
